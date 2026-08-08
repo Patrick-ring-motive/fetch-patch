@@ -21,4 +21,13 @@
     };
     globalThis.Request = $Request;
   })();
+  (()=>{
+    const _open = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = Object.setPrototypeOf(function open(...args){
+        if(isString(args[1])){
+          args[1] = args[1].replace(/^http:/i,"https:");
+        }
+        return _open.apply(this,args);
+    },_open);
+  })();
 })();
